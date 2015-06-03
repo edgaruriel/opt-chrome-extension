@@ -1,0 +1,17 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body{
+	height:500px; 
+	width:800px;
+	padding-top: 70px;
+}
+
+#fixedbutton {
+    position: fixed;
+	z-index: 2000;
+    bottom: 455px;
+    right: 20px; 
+}
