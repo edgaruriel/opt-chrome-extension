@@ -1,44 +1,66 @@
-<?php $items = include 'start.php'; ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Simple feed</title>
+<?php
+/**
+* Controlador principal
+*
+* Contiene el controlador principal MVC,
+* Carga el controlador, el modelo y la vista necesaria
+*
+* @package inicio
+* @author Victor Hugo Menendez Dominguez <mdoming@uady.mx>
+* @version 1.5
+* @date 20/Abril/2009
+*
+**/
 
-	<!-- Bootstrap CSS -->
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+// Deshabilitar todo reporte de errores
+error_reporting (E_ERROR | E_PARSE);
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-			<![endif]-->
-		</head>
-		<body>
-			<h1 class="text-center">Welcome to the Simple Feed</h1>
-			<div class="container">
-				<div class="row">
-					<?php foreach ($items as $item) : ?>
-						<div class="">
-							<article>
-								<header>
-									<h1><a href="findFeed.php?feedId=<?= $item["itemId"]  ?>"><?= $item["title"] ?></a></h1>
-									<p>Author: <?= $item["author"] ?></p>
-									<p>Date: <?= $item["date"] ?></p>
-									<p><?= $item["description"] ?></p>
-									<h2><?= $item["itemId"] ?></h2>
-								</header>
-							</article>
-						</div>
-					<?php endforeach ?>
-				</div>
-			</div>
-			<!-- jQuery -->
-			<script src="//code.jquery.com/jquery.js"></script>
-			<!-- Bootstrap JavaScript -->
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		</body>
-		</html>
+/** Cargar las variables globales de directorios y archivos de configuracion */
+include ('config/variables.php');
+
+/** Cargar las funciones generales */
+include ('library/funciones.php');
+
+/**
+* Controlador solicitado
+* @global string $controlador
+*/
+$controlador = '';
+
+/**
+* Accion solicitada
+* @global string $accion
+*/
+$accion = '';
+
+// Cargar controlador y accion, sino existen se cargan los predefinidos
+// definidos en variables.php
+if (! empty ($variables_ruta[$controlador_id]))
+	$controlador = $variables_ruta[$controlador_id];
+else
+	$controlador = $controlador_predefinido;
+
+if (! empty ($variables_ruta[$accion_id]))
+	$accion = $variables_ruta[$accion_id];
+else
+	$accion = $accion_predefinida;
+	
+// Formamos el nombre del archivo que contiene nuestro controlador
+$controlador_archivo = 'src/controller/' . $controlador . $controlador_extension;
+
+// Incluimos el controlador o detenemos todo si no existe
+if (file_exists ($controlador_archivo))
+	include ($controlador_archivo);
+else {
+	echo 'Controlador ' . $controlador . ' no existe.';
+}
+
+// Llamamos la accion o detenemos todo si no existe
+$accion_funcion = 'action_'.$accion;
+if (is_callable ($accion_funcion)) {
+	$accion_funcion ();
+} else {
+	echo 'Controlador' . $controlador . '.' .  $accion . ' no existe..';
+}
+
+?>

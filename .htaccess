@@ -1,0 +1,33 @@
+options +FollowSymLinks
+
+<ifmodule mod_rewrite.c>
+	RewriteEngine On
+	
+	#Si la url solicitada no es un archivo (existente), continuar...
+	RewriteCond %{REQUEST_FILENAME} !-f
+	
+	#Si la url solicitada no es un archivo (existente), continuar...
+	RewriteCond %{REQUEST_FILENAME} !-d
+	
+	#se toma todo ese -query_string- y se pasa como parametro ruta
+	RewriteRule ^(.*)$ index.php?ruta=$1 [L,QSA]
+	
+</ifmodule>
+
+
+#<ifmodule mod_expires.c>
+	#Definición de encabezados con fecha de expiración
+	#ExpiresActive On
+	
+#	ExpiresDefault "access plus 1 month"
+#	ExpiresByType image/gif "access plus 2 months"
+#</ifmodule>
+
+
+#<ifmodule mod_deflate.c>
+#	SetOutputFilter DEFLATE
+	
+#	AddOutputFilterByType DEFLATE text/html
+#</ifmodule>
+
+

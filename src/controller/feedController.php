@@ -1,10 +1,8 @@
 <?php
 include_once(dirname(__FILE__)."/../../library/simplepie/autoloader.php");
+include_once(dirname(__FILE__)."/../config/feeds.php");
 
-
-class IndexController {
-	
-	function findOneFeedById(){
+	function action_findOneFeedById(){
 		$feedId = $_REQUEST['feedId'];
 		
 		$urls = $this->getConfigFeeds();
@@ -41,10 +39,9 @@ class IndexController {
 		}
 	}
 	
-	function findAllFeeds(){
-
-		$urls = $this->getConfigFeeds();
-		
+	function action_findAllFeeds(){
+		$urls = getConfigFeeds();
+		 
 		$feed = new SimplePie();
 		$feed->set_feed_url($urls);
 		$feed->enable_cache(false);
@@ -72,16 +69,11 @@ class IndexController {
 		
 				array_push($news, $feed);
 			}
-		
+// 			print_r($news);
 			echo json_encode($news);
 	}
 	
-	private function getConfigFeeds(){
-		return include '../src/config/feeds.php';
-	}
-	
-
-	private function getDateFormat($dateTimeStamp){
+	function getDateFormat($dateTimeStamp){
 		$months = array("Enero"=>1,"Febrero"=>2,"Marzo"=>3,"Abril"=>4,"Mayo"=>5,"Junio"=>6,"Julio"=>7,"Agosto"=>8,"Septiembre"=>9,"Octubre"=>10,"Noviembre"=>11,"Diciembre"=>12);
 	
 		$year = date('Y',$dateTimeStamp);
@@ -95,4 +87,3 @@ class IndexController {
 	
 		return $day."/".array_search($month, $months)."/".$year." ".$hour."-".$minut."-".$second;
 	}
-}
