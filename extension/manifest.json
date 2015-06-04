@@ -1,28 +1,28 @@
 {
   "manifest_version": 2,
 
-  "name": "RSS Feed Extension",
-  "description": "This extension shows RSS Feeds",
+  "name": "Extensión Noticias",
+  "description": "Esta extensión muestra las noticias más reciente en el mundo.",
   "version": "1.0",
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html",
-    "default_title": "Get recent news!"
+    "default_title": "Obtener las noticias más recientes"
   },
   "content_scripts": [ {
-    "js": [ "jquery-1.11.3.min.js", "getFeed.js" ],
+    "js": [ "js/scripts.js" ],
     "matches": [ "http://*/*", "https://*/*"]
   }],
     
   "permissions": [
     "activeTab",
 	"storage",
-    "https://ajax.googleapis.com/"  
+    "https://ajax.googleapis.com/",
+	"http://*/",
+    "https://*/*",
+	"tabs"
 
-    ]
-    
-    
-    
-  
-  
+    ],
+	"content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
+
 }
