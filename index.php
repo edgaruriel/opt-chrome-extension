@@ -48,19 +48,33 @@ else
 // Formamos el nombre del archivo que contiene nuestro controlador
 $controlador_archivo = 'src/controller/' . $controlador . $controlador_extension;
 
+$controlleFile = $controlador . 'Controller';
 // Incluimos el controlador o detenemos todo si no existe
-if (file_exists ($controlador_archivo))
+$controller = null;
+if (file_exists ($controlador_archivo)){
 	include ($controlador_archivo);
-else {
+	$controller = new $controlleFile();
+}else {
 	echo 'Controlador ' . $controlador . ' no existe.';
 }
 
 // Llamamos la accion o detenemos todo si no existe
 $accion_funcion = 'action_'.$accion;
-if (is_callable ($accion_funcion)) {
-	$accion_funcion ();
-} else {
-	echo 'Controlador' . $controlador . '.' .  $accion . ' no existe..';
+if($controller != null){
+// 	print_r($accion_funcion);
+	if(method_exists(new $controlleFile(), $accion_funcion)){
+		$controller->$accion_funcion();
+	}else {
+		echo 'Controlador' . $controlador . '.' .  $accion . ' no existe..';
+	}
+}else{
+	echo 'Controlador ' . $controlador . ' no existe.2';
 }
+
+// if (is_callable ($accion_funcion)) {
+// 	$accion_funcion ();
+// } else {
+// 	echo 'Controlador' . $controlador . '.' .  $accion . ' no existe..';
+// }
 
 ?>
