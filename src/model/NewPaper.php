@@ -7,8 +7,8 @@ class NewPaper{
 	public static $primaryKey = 'id';
 	public static $nameTable = 'news_paper';
 	
-	private $id = null;
-	private $name = null;
+	public $id = null;
+	public $name = null;
 	/**
 	 * @return the $id
 	 */

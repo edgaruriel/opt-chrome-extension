@@ -20,9 +20,9 @@ class FeedMapper{
 		$query = implode(",", $keys);
 		
 		$data = Array(
-				"'".$obj->getTitle()."'",
-				"'".$obj->getDescription()."'",
-				"'".$obj->getAutor()."'",
+				"'".utf8_encode($obj->getTitle())."'",
+				"'".utf8_encode($obj->getDescription())."'",
+				"'".utf8_encode($obj->getAutor())."'",
 				"'".$obj->getDate()."'",
 				"'".$obj->getLink()."'",
 				"'".$obj->getIdExt()."'",
@@ -65,15 +65,17 @@ class FeedMapper{
 // 		if($conditions != ''){
 // 			$conditions = 'WHERE '.$conditions;
 // 		}
+// print_r($expression);
+// exit()
 		$sentence = $this->connection->getPdo()->prepare("SELECT ".$query." FROM  new ".$conditions);
 		 
 		$sentence->execute();
 		while ($fila = $sentence->fetch()) {
 			$feed = new Feed();
 			$feed->setId($fila["id"]);
-			$feed->setTitle($fila["title"]);
-			$feed->setDescription($fila["description"]);
-			$feed->setAutor($fila["author"]);
+			$feed->setTitle(utf8_decode($fila["title"]));
+			$feed->setDescription(utf8_decode($fila["description"]));
+			$feed->setAutor(utf8_decode($fila["author"]));
 			$feed->setDate($fila["date"]);
 			$feed->setLink($fila["link"]);
 			$feed->setIdExt($fila["id_ext"]);
@@ -110,6 +112,7 @@ class FeedMapper{
 		
 		if ( $text != "" )
 		{
+			$text = utf8_encode($text);
 			$sWhere = "WHERE ";
 			$sWhere .= "(";
 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
@@ -122,8 +125,8 @@ class FeedMapper{
 			array_push($columnsAux, Feed::$primaryKey);
 			
 			if($page != null){
-				$pageNumber = ($page * 5);
-				$sWhere .= "ORDER BY id ASC LIMIT ".$pageNumber.", 5";
+				$pageNumber = ($page * 10);
+				$sWhere .= "ORDER BY id ASC LIMIT ".$pageNumber.", 10";
 			}
 			$result = $this->select($columnsAux, $sWhere);
 		}
