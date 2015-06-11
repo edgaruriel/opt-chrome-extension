@@ -25,8 +25,7 @@ class FeedController{
 			exit();
 		}
 		$feeds = $feedService->getAllFeedFromDB($groupNumber);
-		print("<pre>".print_r($feeds,true)."</pre>");
-		exit();
+		echo json_encode($feeds);
 	}
 	
 	
