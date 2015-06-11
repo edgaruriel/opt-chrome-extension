@@ -9,11 +9,18 @@ class FeedService{
 	//toma los que ya se encuentran en la Base de datos
 	// $page: es el número de pagina o bloque de pagina que despliega, puede ser bloques de
 	// 10 en 10 o de cualquier otro 
-	public function getAllDB($page = null){
+	public function getAllFeedFromDB($page = null){
 		$feedMapper = new FeedMapper();
+		
 		$columns = Feed::$columns;
 		array_push($columns, Feed::$primaryKey);
-		return $feedMapper->select($columns);
+		if($page != null){
+			$pageNumber = ($page * 5);
+			$condition = "ORDER BY id ASC LIMIT ".$pageNumber.", 5";
+			return $feedMapper->select($columns, $condition);
+		}else{
+			return $feedMapper->select($columns);
+		}
 	}
 	
 	// consulta nuevamente todos los feeds y actualiza la Base de datos, eliminando
@@ -22,7 +29,7 @@ class FeedService{
 		$feedMapper = new FeedMapper();
 		
 		$this->deleteFeeds();
-		$feedsFromDB = $this->getAllDB();
+		$feedsFromDB = $this->getAllFeedFromDB();
 		$feeds = $this->getFeedsFromUrl();
 		
 		
@@ -33,9 +40,16 @@ class FeedService{
 		return true;
 	}
 	
-	// agregar nuevo feed
-	public function insertFeeds($arrayFeeds){
+	// método par filtrar las noticias por un texto enviado
+	public function searchFeedByText($text, $page = null){
+		$feedMapper = new FeedMapper();
 		
+		if($page != null){
+		return	$feedMapper->searchByText($text, $page);
+		}else{
+		return	$feedMapper->searchByText($text);
+		}
+		 
 	}
 	
 	// ordenar los feeds por varias condiciones
@@ -107,40 +121,4 @@ class FeedService{
 		return $feedToAdd;
 	}
 	
-	//toma el feed filtrado con el Id de la base de datos
-	private function getOneFeedById($id){
-// 		$urls = Config::getInstance()->getConfigFeeds();
-		
-// 		$feed = new SimplePie();
-// 		$feed->set_feed_url($urls);
-// 		$feed->enable_cache(false);
-		
-// 		$feed->init();
-		
-// 		$items = $feed->get_items();
-		
-// 		$feedFound = null;
-// 		foreach($items as $item){
-// 			if($item->get_id(true) == $feedId){
-// 				$feedFound = $item;
-// 				break;
-// 			}
-// 		}
-		
-// 		if($feedFound != null){
-// 			$dateFormat = new DateFormat();
-// 			$new = Array(
-// 					"title"=>$feedFound->get_title(),
-// 					"date"=>$dateFormat->getDateFormat(strtotime($feedFound->get_date('Y-m-d H:i:s'))),
-// 					"author"=>$feedFound->get_author()->get_name(),
-// 					"description"=>$item->get_description(),
-// 					"link"=>$feedFound->get_link(),
-// 					"itemId"=>$feedFound->get_id(true)
-// 			);
-		
-// 			echo json_encode($new);
-// 		}else{
-// 			echo json_encode(array());
-// 		}
-	}
 }

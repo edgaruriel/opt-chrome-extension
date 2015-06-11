@@ -11,15 +11,47 @@ class FeedController{
 		
 	}
 	
+	// todas las noticias filtradas unicamente por bloques de 5 noticias
 	function action_findNextPage(){
+		$feedService = new FeedService();
 		$page = $_REQUEST['page'];
 		
+		//sanitize post value
+		$groupNumber = filter_var($page, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_STRIP_HIGH);
+		
+		//throw HTTP error if group number is not valid
+		if(!is_numeric($groupNumber)){
+			header('HTTP/1.1 500 Invalid number!');
+			exit();
+		}
+		$feeds = $feedService->getAllFeedFromDB($groupNumber);
+		print("<pre>".print_r($feeds,true)."</pre>");
+		exit();
+	}
+	
+	
+	// método que encuentra coicidencias dentro de la noticia y con la opción de 
+	// paginar las noticias
+	function action_searchByText(){
+		$feedService = new FeedService();
+		$text = $_REQUEST['text'];
+		
+		$feeds = Array();
+		if(isset($_REQUEST['page'])){
+			$feeds = $feedService->searchFeedByText($text,$_REQUEST['page']);
+		}else{
+			$feeds = $feedService->searchFeedByText($text);
+		}
+		
+		print("<pre>".print_r($feeds,true)."</pre>");
+		echo "termino";
+		exit();
 	}
 	
 	//son todas las noticias de la base de datos
 	function action_refresh(){
 		$feedService = new FeedService();
-		$feeds = $feedService->getAllDB();
+		$feeds = $feedService->getAllFeedFromDB();
 		print("<pre>".print_r($feeds,true)."</pre>");
 		exit();
 		echo json_encode($feeds);
