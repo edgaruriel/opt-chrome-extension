@@ -15,8 +15,8 @@ class FeedService{
 		$columns = Feed::$columns;
 		array_push($columns, Feed::$primaryKey);
 		if($page != null){
-			$pageNumber = ($page * 5);
-			$condition = "ORDER BY id ASC LIMIT ".$pageNumber.", 5";
+			$pageNumber = ($page * 10);
+			$condition = "ORDER BY id ASC LIMIT ".$pageNumber.", 10";
 			return $feedMapper->select($columns, $condition);
 		}else{
 			return $feedMapper->select($columns);

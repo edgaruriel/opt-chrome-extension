@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Bootstrap 3, from LayoutIt!</title>
+  <title>Feed Newspaper!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -19,13 +19,6 @@
   <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
   <![endif]-->
-
-  <!-- Fav and touch icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
-  <link rel="shortcut icon" href="img/favicon.png">
   
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -35,17 +28,6 @@
 <body>
 	<div class="row clearfix">
 		<div class="col-md-12 column">
-			<!--<ul class="nav nav-pills">
-				<li class="active">
-					 <a href="#"> <span class="badge pull-right">42</span> Noticias</a>
-				</li>
-				<li>
-					 <a href="#"> <span class="badge pull-right">16</span> M&aacute;s votados</a>
-				</li>
-				<li>
-					 <a href="#"> <span class="badge pull-right">29</span> M&aacute;s le&iacute;dos</a>
-				</li><br>
-			</ul>-->
 			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 				<div class="navbar-header">
 					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#"></a>
@@ -65,109 +47,20 @@
 					</ul>
 					<form class="navbar-form navbar-left" role="search">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Buscar">
-						</div> <button type="submit" class="btn btn-default">Buscar</button>
+							<input id="txtSearch" type="text" class="form-control" placeholder="Buscar">
+						</div> <button type="submit" id="btnSearch" class="btn btn-default">Buscar</button>
+						
 					</form>
+					<a href="#" class="btn btn-success btn-lg" id="btnRefresh"><span class="glyphicon glyphicon-refresh"></span></a>
 				</div>
 				
 			</nav>
 		</div>
 	</div>
-
-<!--<div class="container-fluid">
-			<nav class="navbar navbar-inverse">
-			  <div class="container">
-				<div class="navbar-header">
-				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-3">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				  </button>
-				  <a class="navbar-brand" href="#">Brand</a>
-				</div>
-		
-				<div class="collapse navbar-collapse" id="navbar-collapse-3">
-				  <ul class="nav navbar-nav navbar-left">
-					<li><a href="#">Noticias</a></li>
-					<li><a href="#">M&aacute;s votados</a></li>
-					<li><a href="#">M&aacute;s le&iacute;dos</a></li>
-					<li>
-					  <a class="btn btn-default btn-outline btn-circle collapsed"  data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Buscar</a>
-					</li>
-				  </ul>
-				  <div class="collapse nav navbar-nav nav-collapse slide-down" id="nav-collapse3">
-					<form class="navbar-form navbar-right" role="search">
-					  <div class="form-group">
-						<input type="text" class="form-control" placeholder="Buscar" />
-					  </div>
-					  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-					</form>
-				  </div>
-				</div>
-			  </div>
-			</nav>
-		</div>-->
 		    
-                <div class="list-group "> 
-                    <a href="#" class="list-group-item"">
-                        <h4 class="list-group-item-heading">Heading 1 <button id="btnFav1" class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text... <button id="btnUrl1" class="btn pull-right btn-info btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></p>
-						
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 2 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 3 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 4 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 5 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 6 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 7 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 8 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 9 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 10 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 11 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 12 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Heading 13 <button class="btn pull-right btn-danger btn-xs"><span class="glyphicon glyphicon-heart"></span></button></h4>
-                        <p class="list-group-item-text">Some text...</p>
-                    </a>
+                <div class="list-group" id="feed"> 
+                    
                 </div>
-			
-        <!-- Fancy material button -->
-        <div style="bottom: 42px; rigth: 24px;">
-            <a href="#" class="btn btn-success btn-lg" id="fixedbutton"><span class="glyphicon glyphicon-refresh"></span></a>
-        </div>
+				<div class="animation_image" style="display:none" align="center"><img src="ajax-loader.gif"></div>
 </body>
 </html>

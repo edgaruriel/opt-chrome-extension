@@ -5,8 +5,8 @@ include_once(dirname(__FILE__)."/../services/FeedService.php");
 
 class FeedController{
 	
-	//son todas las noticias filtradas por el tipo de periodico o sección y el número
-	// de bloque para la página
+	//son todas las noticias filtradas por el tipo de periodico o secciï¿½n y el nï¿½mero
+	// de bloque para la pï¿½gina
 	function action_findByNewsPaper(){
 		
 	}
@@ -30,7 +30,7 @@ class FeedController{
 	}
 	
 	
-	// método que encuentra coicidencias dentro de la noticia y con la opción de 
+	// mï¿½todo que encuentra coicidencias dentro de la noticia y con la opciï¿½n de 
 	// paginar las noticias
 	function action_searchByText(){
 		$feedService = new FeedService();
@@ -42,18 +42,14 @@ class FeedController{
 		}else{
 			$feeds = $feedService->searchFeedByText($text);
 		}
-		
-		print("<pre>".print_r($feeds,true)."</pre>");
-		echo "termino";
-		exit();
+
+        echo json_encode($feeds);
 	}
 	
 	//son todas las noticias de la base de datos
 	function action_refresh(){
 		$feedService = new FeedService();
 		$feeds = $feedService->getAllFeedFromDB();
-		print("<pre>".print_r($feeds,true)."</pre>");
-		exit();
 		echo json_encode($feeds);
 	}
 	

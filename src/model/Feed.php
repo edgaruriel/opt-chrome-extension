@@ -7,16 +7,16 @@ class Feed{
 	public static $primaryKey = 'id';
 	public static $nameTable = 'new';
 	
-	private $id = null;
-	private $title = null;
-	private $description = null;
-	private $autor = null;
-	private $date = null;
-	private $link = null;
-	private $likes = null;
-	private $views = null;
-	private $idExt = null;
-	private $newsPaper = null;
+	public $id = null;
+	public $title = null;
+	public $description = null;
+	public $autor = null;
+	public $date = null;
+	public $link = null;
+	public $likes = null;
+	public $views = null;
+	public $idExt = null;
+	public $newsPaper = null;
 	
 	
 	/**
