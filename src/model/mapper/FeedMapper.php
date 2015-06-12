@@ -38,20 +38,11 @@ class FeedMapper{
 		return $obj;
 	}
 	
-	public function update($obj){
-		$keys = array_values($obj::$columns);
-		$query = implode(",", $keys);
+	public function updateLikesAndViews($obj){
 		
 		$data = Array(
-				"title ='".utf8_encode($obj->getTitle())."'",
-				"description ='".utf8_encode($obj->getDescription())."'",
-				"author ='".utf8_encode($obj->getAutor())."'",
-				"date ='".$obj->getDate()."'",
-				"link ='".$obj->getLink()."'",
-				"id_ext ='".$obj->getIdExt()."'",
 				"likes =".$obj->getLikes(),
-				"views =".$obj->getViews(),
-				"news_paper_id =".$obj->getNewsPaper()->getId()
+				"views =".$obj->getViews()
 		);
 		$valuesAux = implode(",", $data);
 		$sentence = $this->connection->getPdo()->prepare('UPDATE new SET '.$valuesAux.' WHERE id = '.$obj->getId());
@@ -74,14 +65,14 @@ class FeedMapper{
 			$feed->setTitle(utf8_decode($fila["title"]));
 			
 			$description = utf8_decode($fila["description"]);
-// 			$shortDescription = "";
-// 			if(strlen($description)>100){
-// 				$shortDescription = substr($description, 0,110);
-// 			}else{
-// 				$shortDescription = $description;
-// 			}
-// 			$shortDescription .= '...';
-			$feed->setDescription($description);
+			$shortDescription = "";
+			if(strlen($description)>110){
+				$shortDescription = substr($description, 0,110);
+			}else{
+				$shortDescription = $description;
+			}
+			$shortDescription .= '...';
+			$feed->setDescription($shortDescription);
 			$feed->setAutor(utf8_decode($fila["author"]));
 			$feed->setDate($fila["date"]);
 			$feed->setLink($fila["link"]);

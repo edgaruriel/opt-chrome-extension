@@ -24,7 +24,17 @@ class FeedController{
 			header('HTTP/1.1 500 Invalid number!');
 			exit();
 		}
-		$feeds = $feedService->getAllFeedFromDB($groupNumber);
+		
+		$feeds = Array();
+		if(isset($_REQUEST['filterBy'])){
+			$filter = $_REQUEST['filterBy'];
+			$filter .= " DESC ";
+			$feeds = $feedService->getAllFeedFromDB($groupNumber, $filter);
+		}else{
+			$feeds = $feedService->getAllFeedFromDB($groupNumber);
+		}
+		
+		
 		echo json_encode($feeds);
 	}
 	

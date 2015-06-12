@@ -9,14 +9,20 @@ class FeedService{
 	//toma los que ya se encuentran en la Base de datos
 	// $page: es el n�mero de pagina o bloque de pagina que despliega, puede ser bloques de
 	// 10 en 10 o de cualquier otro 
-	public function getAllFeedFromDB($page = null){
+	public function getAllFeedFromDB($page = null, $conditions = null){
 		$feedMapper = new FeedMapper();
 		
 		$columns = Feed::$columns;
 		array_push($columns, Feed::$primaryKey);
 		if($page != null){
 			$pageNumber = ($page * 10);
-			$condition = "ORDER BY id ASC LIMIT ".$pageNumber.", 10";
+			$condition = "";
+			if($conditions != null){
+				$condition .= "ORDER BY ".$conditions;
+			}else{
+				$condition .= "ORDER BY id DESC ";
+			}
+			$condition .= "LIMIT ".$pageNumber.", 10";
 			return $feedMapper->select($columns, $condition);
 		}else{
 			return $feedMapper->select($columns);
@@ -52,7 +58,7 @@ class FeedService{
 		$likes += 1;
 		$feed->setLikes($likes);
 		
-		$feedMapper->update($feed);
+		$feedMapper->updateLikesAndViews($feed);
 	}
 	
 	public function updateViews($feedId){
@@ -68,7 +74,7 @@ class FeedService{
 		$views += 1;
 		$feed->setViews($views);
 		
-		$feedMapper->update($feed);
+		$feedMapper->updateLikesAndViews($feed);
 	}
 	
 	// m�todo par filtrar las noticias por un texto enviado
