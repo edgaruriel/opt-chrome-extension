@@ -20,7 +20,7 @@ class FeedService{
 			if($conditions != null){
 				$condition .= "ORDER BY ".$conditions;
 			}else{
-				$condition .= "ORDER BY id DESC ";
+				$condition .= "ORDER BY id ASC ";
 			}
 			$condition .= "LIMIT ".$pageNumber.", 10";
 			return $feedMapper->select($columns, $condition);

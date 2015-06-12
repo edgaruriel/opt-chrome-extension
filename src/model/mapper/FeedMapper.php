@@ -66,8 +66,8 @@ class FeedMapper{
 			
 			$description = utf8_decode($fila["description"]);
 			$shortDescription = "";
-			if(strlen($description)>110){
-				$shortDescription = substr($description, 0,110);
+			if(strlen($description)>90){
+				$shortDescription = substr($description, 0,90);
 			}else{
 				$shortDescription = $description;
 			}
