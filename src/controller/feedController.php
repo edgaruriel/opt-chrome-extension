@@ -41,7 +41,6 @@ class FeedController{
 		}else{
 			$feeds = $feedService->searchFeedByText($text);
 		}
-
         echo json_encode($feeds);
 	}
 	
@@ -50,6 +49,18 @@ class FeedController{
 		$feedService = new FeedService();
 		$feeds = $feedService->getAllFeedFromDB();
 		echo json_encode($feeds);
+	}
+	
+	function action_updateLikes(){
+		$feedId = $_REQUEST['feedId'];
+		$feedService = new FeedService();
+		$feedService->updateLikes($feedId);
+	}
+	
+	function action_updateViews(){
+		$feedId = $_REQUEST['feedId'];
+		$feedService = new FeedService();
+		$feedService->updateViews($feedId);
 	}
 	
 	// Borra las noticas de la base de datos que no tenga ningun like o view y agrega

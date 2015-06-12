@@ -32,12 +32,43 @@ class FeedService{
 		$feedsFromDB = $this->getAllFeedFromDB();
 		$feeds = $this->getFeedsFromUrl();
 		
-		
 		$feedNews = $this->filterNotAdd($feedsFromDB, $feeds);
 		foreach ($feedNews as $feed){
 			$feedMapper->insert($feed);
 		}
 		return true;
+	}
+	
+	public function updateLikes($feedId){
+		$feedMapper = new FeedMapper();
+		
+		$condition = "WHERE new.id = ".$feedId;
+		$columns = Feed::$columns;
+		array_push($columns, Feed::$primaryKey);
+		$feedArray = $feedMapper->select($columns,$condition);
+		$feed = $feedArray[0];
+		
+		$likes = $feed->getLikes();
+		$likes += 1;
+		$feed->setLikes($likes);
+		
+		$feedMapper->update($feed);
+	}
+	
+	public function updateViews($feedId){
+		$feedMapper = new FeedMapper();
+		
+		$condition = "WHERE new.id = ".$feedId;
+		$columns = Feed::$columns;
+		array_push($columns, Feed::$primaryKey);
+		$feedArray = $feedMapper->select($columns,$condition);
+		$feed = $feedArray[0];
+		
+		$views = $feed->getViews();
+		$views += 1;
+		$feed->setViews($views);
+		
+		$feedMapper->update($feed);
 	}
 	
 	// método par filtrar las noticias por un texto enviado
@@ -81,6 +112,8 @@ class FeedService{
 				$feed->setDate($item->get_date('Y-m-d H:i:s'));
 				$feed->setLink($item->get_link());
 				$feed->setIdExt($item->get_id(true));
+				$feed->setLikes(0);
+				$feed->setViews(0);
 				$feed->setNewsPaper($newPaperService->findOneById($idNewPaper));
 				array_push($news, $feed);
 			}
@@ -93,13 +126,7 @@ class FeedService{
 	// almenos un registro de estos.
 	private function deleteFeeds(){
 		$feedMapper = new FeedMapper();
-		
-		$likes = $feedMapper->findAllLikesIds();
-		$views = $feedMapper->findAllViewsIds();
-		foreach ($views as $id){
-			array_push($likes, $id);
-		}
-		$feedMapper->deleteOnlyLikeAndViewZero($likes);
+		$feedMapper->deleteOnlyLikeAndViewZero();
 	}
 	
 	private function filterNotAdd($feedDB, $feedNews){

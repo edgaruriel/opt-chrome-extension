@@ -1,7 +1,7 @@
 <?php
 class Feed{
 	public static $columns = Array(
-				'title','description','author','date','link','id_ext','news_paper_id'
+				'title','description','author','date','link','id_ext','likes','views','news_paper_id'
 			);
 	
 	public static $primaryKey = 'id';

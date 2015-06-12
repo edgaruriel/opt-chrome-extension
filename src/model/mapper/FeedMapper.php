@@ -26,6 +26,8 @@ class FeedMapper{
 				"'".$obj->getDate()."'",
 				"'".$obj->getLink()."'",
 				"'".$obj->getIdExt()."'",
+				$obj->getLikes(),
+				$obj->getViews(),
 				$obj->getNewsPaper()->getId()
 				);
 		$valuesAux = implode(",", $data);
@@ -37,22 +39,23 @@ class FeedMapper{
 	}
 	
 	public function update($obj){
-		$keys = array_values($obj::columns);
+		$keys = array_values($obj::$columns);
 		$query = implode(",", $keys);
 		
 		$data = Array(
-				$obj->getTitle(),
-				$obj->getDescription(),
-				$obj->getAutor(),
-				$obj->getDate(),
-				$obj->getNewsPaper()->getId()
+				"title ='".utf8_encode($obj->getTitle())."'",
+				"description ='".utf8_encode($obj->getDescription())."'",
+				"author ='".utf8_encode($obj->getAutor())."'",
+				"date ='".$obj->getDate()."'",
+				"link ='".$obj->getLink()."'",
+				"id_ext ='".$obj->getIdExt()."'",
+				"likes =".$obj->getLikes(),
+				"views =".$obj->getViews(),
+				"news_paper_id =".$obj->getNewsPaper()->getId()
 		);
 		$valuesAux = implode(",", $data);
-		
-		$query = implode(",", $valuesAux);
-		$sentence = $this->connection->getPdo()->prepare('UPDATE new SET '.$query.' WHERE id = '.$obj->getId());
+		$sentence = $this->connection->getPdo()->prepare('UPDATE new SET '.$valuesAux.' WHERE id = '.$obj->getId());
 		$sentence->execute();
-		return $this->lastInsertId();
 	}
 	
 	public function select($columns,$conditions = ''){
@@ -62,11 +65,6 @@ class FeedMapper{
 		$query = '';
 		$keys = array_values($columns);
 		$query = implode(",", $keys);
-// 		if($conditions != ''){
-// 			$conditions = 'WHERE '.$conditions;
-// 		}
-// print_r($expression);
-// exit()
 		$sentence = $this->connection->getPdo()->prepare("SELECT ".$query." FROM  new ".$conditions);
 		 
 		$sentence->execute();
@@ -74,11 +72,22 @@ class FeedMapper{
 			$feed = new Feed();
 			$feed->setId($fila["id"]);
 			$feed->setTitle(utf8_decode($fila["title"]));
-			$feed->setDescription(utf8_decode($fila["description"]));
+			
+			$description = utf8_decode($fila["description"]);
+// 			$shortDescription = "";
+// 			if(strlen($description)>100){
+// 				$shortDescription = substr($description, 0,110);
+// 			}else{
+// 				$shortDescription = $description;
+// 			}
+// 			$shortDescription .= '...';
+			$feed->setDescription($description);
 			$feed->setAutor(utf8_decode($fila["author"]));
 			$feed->setDate($fila["date"]);
 			$feed->setLink($fila["link"]);
 			$feed->setIdExt($fila["id_ext"]);
+			$feed->setLikes($fila["likes"]);
+			$feed->setViews($fila["views"]);
 			$feed->setNewsPaper($newPaperMapper->findById($fila["news_paper_id"]));
 			
 			array_push($result, $feed);
@@ -89,17 +98,6 @@ class FeedMapper{
 	public function deleteById($obj){
 		$sentence = $this->connection->getPdo()->prepare('DELETE FROM new WHERE id = '.$obj->getId());
 		$sentence->execute();
-	}
-	
-	public function findAllLikesIds(){
-		$result = Array();
-		
-		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  likes ");
-		$sentence->execute();
-		while ($fila = $sentence->fetch()) {
-			array_push($result, $fila["new_id"]);
-		}
-		return $result;
 	}
 	
 	public function searchByText($text, $page = null){
@@ -133,29 +131,31 @@ class FeedMapper{
 		return $result;
 	}
 	
-	public function findOneLikeByNewId(){
-		
-	}
+// 	public function findAllLikesIds(){
+// 		$result = Array();
+
+// 		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  likes ");
+// 		$sentence->execute();
+// 		while ($fila = $sentence->fetch()) {
+// 			array_push($result, $fila["new_id"]);
+// 		}
+// 		return $result;
+// 	}
 	
-	public function findOneViewByNewId(){
+// 	public function findAllViewsIds(){
+// 		$result = Array();
 		
-	}
-	
-	public function findAllViewsIds(){
-		$result = Array();
-		
-		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  views ");
-		$sentence->execute();
-		while ($fila = $sentence->fetch()) {
-			array_push($result, $fila["new_id"]);
-		}
-		return $result;
-	}
+// 		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  views ");
+// 		$sentence->execute();
+// 		while ($fila = $sentence->fetch()) {
+// 			array_push($result, $fila["new_id"]);
+// 		}
+// 		return $result;
+// 	}
 	
 	//elimina todas las noticias menos los que se encuentran en el arreglo.
-	public function deleteOnlyLikeAndViewZero($arrayIds){
-		$ids = implode(",",array_unique($arrayIds));
-		$sentence = $this->connection->getPdo()->prepare('DELETE new FROM new WHERE new.id NOT IN ('.$ids.')');
+	public function deleteOnlyLikeAndViewZero(){
+		$sentence = $this->connection->getPdo()->prepare('DELETE new FROM new WHERE new.likes = 0 AND new.views = 0') ;
 		$sentence->execute();
 	}
 	
