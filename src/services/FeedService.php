@@ -7,7 +7,7 @@ include_once(dirname(__FILE__)."/NewPaperService.php");
 class FeedService{
 	
 	//toma los que ya se encuentran en la Base de datos
-	// $page: es el número de pagina o bloque de pagina que despliega, puede ser bloques de
+	// $page: es el nï¿½mero de pagina o bloque de pagina que despliega, puede ser bloques de
 	// 10 en 10 o de cualquier otro 
 	public function getAllFeedFromDB($page = null){
 		$feedMapper = new FeedMapper();
@@ -71,7 +71,7 @@ class FeedService{
 		$feedMapper->update($feed);
 	}
 	
-	// método par filtrar las noticias por un texto enviado
+	// mï¿½todo par filtrar las noticias por un texto enviado
 	public function searchFeedByText($text, $page = null){
 		$feedMapper = new FeedMapper();
 		
@@ -88,7 +88,7 @@ class FeedService{
 		
 	}
 	
-	//toma todo los feeds de la configuración
+	//toma todo los feeds de la configuraciï¿½n
 	private function getFeedsFromUrl(){
 		$newPaperService = new NewPaperService();
 		$urls = Config::getInstance()->getConfigFeeds();
@@ -147,5 +147,15 @@ class FeedService{
 		}
 		return $feedToAdd;
 	}
+
+    public function countFeeds(){
+        $feedMapper = new FeedMapper();
+        return $feedMapper->countTotal();
+    }
+
+    public function countFeedsByText($text){
+        $feedMapper = new FeedMapper();
+        return $feedMapper->countTotalByText($text);
+    }
 	
 }

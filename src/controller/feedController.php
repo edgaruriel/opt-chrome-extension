@@ -41,8 +41,25 @@ class FeedController{
 		}else{
 			$feeds = $feedService->searchFeedByText($text);
 		}
+
         echo json_encode($feeds);
 	}
+
+    function action_countTotal(){
+        $feedService = new FeedService();
+        $total = $feedService->countFeeds();
+        //$value = round($total/10, 0, PHP_ROUND_HALF_DOWN);
+        $value = floor($total/10);
+        echo json_encode($value);
+    }
+
+    function action_countTotalByText(){
+        $feedService = new FeedService();
+        $total = $feedService->countFeedsByText($_REQUEST['text']);
+        //$value = round($total/10, 0, PHP_ROUND_HALF_DOWN);
+        $value = floor($total/10);
+        echo json_encode($value);
+    }
 	
 	//son todas las noticias de la base de datos
 	function action_refresh(){

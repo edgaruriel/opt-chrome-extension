@@ -1,6 +1,6 @@
 var track_load = 0; //total loaded record group(s)
 var loading  = false; //to prevents multipal ajax loads
-var total_groups = 9; //total record group(s)
+var total_groups = 0; //total record group(s)
 
 var isSearch = false; // bandera que se activa cuando seleccionan buscar y tenga algo escrito en el input
 var textToSearch = ""; // se alamcena el texto del input, por si llega a borrar el texto y no da clic en buscar
@@ -10,6 +10,8 @@ var loading_search  = false; //to prevents multipal ajax loads
 	
 $(document).ready(function(){
 	
+	getTotal();
+	
 	$('#btnSearch').click(function(event){
 		event.preventDefault();
 		var text = $("#txtSearch").val();
@@ -17,6 +19,7 @@ $(document).ready(function(){
 			textToSearch = text;
 			isSearch = true;
 			track_load_search = 0;
+			getTotalByText();
 			
 			$('#feed').empty();
 			getFeedSearch();
@@ -137,4 +140,26 @@ function sendFavorite( id ){
 					alert("correcto");
 			}});
   };
+}
+
+function getTotal(){
+	$.ajax({
+				type:"POST",
+				data: {},
+				url: "http://localhost/optChromeExtension/Feed/countTotal",
+				success: function(result){
+					var TOTAL = jQuery.parseJSON(result);
+					total_groups = TOTAL;
+			}});
+}
+
+function getTotalByText(){
+	$.ajax({
+				type:"POST",
+				data: {text:textToSearch},
+				url: "http://localhost/optChromeExtension/Feed/countTotalByText",
+				success: function(result){
+					var TOTAL = jQuery.parseJSON(result);
+					total_groups_search = TOTAL;
+			}});
 }

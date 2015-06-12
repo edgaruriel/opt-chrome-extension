@@ -119,7 +119,7 @@ class FeedMapper{
 			}
 			$sWhere = substr_replace( $sWhere, "", -3 );
 			$sWhere .= ')';
-			
+
 			array_push($columnsAux, Feed::$primaryKey);
 			
 			if($page != null){
@@ -158,6 +158,31 @@ class FeedMapper{
 		$sentence = $this->connection->getPdo()->prepare('DELETE new FROM new WHERE new.likes = 0 AND new.views = 0') ;
 		$sentence->execute();
 	}
+
+    public function countTotal(){
+        $sentence = $this->connection->getPdo()->prepare('SELECT COUNT(*) as total FROM new') ;
+        $sentence->execute();
+        $total=0;
+        while ($fila = $sentence->fetch()) {
+            $total = $fila["total"];
+        }
+        return $total;
+    }
+
+    public function countTotalByText($text){
+        $text = utf8_encode($text);
+        $sentence = $this->connection->getPdo()->prepare("SELECT
+    COUNT(*) AS total
+FROM
+    new
+WHERE (new.title LIKE '%$text%' OR new.description LIKE '%$text%' OR new.author LIKE '%$text%' OR new.date LIKE '%$text%' OR new.link LIKE '%$text%' OR new.id_ext LIKE '%$text%' OR new.likes LIKE '%$text%' OR new.views LIKE '%$text%' OR new.news_paper_id LIKE '%$text%' )") ;
+        $sentence->execute();
+        $total=0;
+        while ($fila = $sentence->fetch()) {
+            $total = $fila["total"];
+        }
+        return $total;
+    }
 	
 	private function lastInsertId($name = NULL) {
 		return $this->connection->getPdo()->lastInsertId($name);
