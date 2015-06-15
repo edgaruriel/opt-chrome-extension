@@ -89,11 +89,6 @@ class FeedService{
 		 
 	}
 	
-	// ordenar los feeds por varias condiciones
-	public function orderFeedsArray($arrayFeeds){
-		
-	}
-	
 	//toma todo los feeds de la configuraci�n
 	private function getFeedsFromUrl(){
 		$newPaperService = new NewPaperService();

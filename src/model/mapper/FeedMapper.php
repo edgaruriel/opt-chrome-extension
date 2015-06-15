@@ -122,28 +122,6 @@ class FeedMapper{
 		return $result;
 	}
 	
-// 	public function findAllLikesIds(){
-// 		$result = Array();
-
-// 		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  likes ");
-// 		$sentence->execute();
-// 		while ($fila = $sentence->fetch()) {
-// 			array_push($result, $fila["new_id"]);
-// 		}
-// 		return $result;
-// 	}
-	
-// 	public function findAllViewsIds(){
-// 		$result = Array();
-		
-// 		$sentence = $this->connection->getPdo()->prepare("SELECT new_id FROM  views ");
-// 		$sentence->execute();
-// 		while ($fila = $sentence->fetch()) {
-// 			array_push($result, $fila["new_id"]);
-// 		}
-// 		return $result;
-// 	}
-	
 	//elimina todas las noticias menos los que se encuentran en el arreglo.
 	public function deleteOnlyLikeAndViewZero(){
 		$sentence = $this->connection->getPdo()->prepare('DELETE new FROM new WHERE new.likes = 0 AND new.views = 0') ;

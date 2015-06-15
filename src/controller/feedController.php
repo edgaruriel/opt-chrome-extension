@@ -1,17 +1,10 @@
 <?php
 include_once(dirname(__FILE__)."/../../library/simplepie/autoloader.php");
-include_once(dirname(__FILE__)."/../services/DateFormat.php");
 include_once(dirname(__FILE__)."/../services/FeedService.php");
 
 class FeedController{
 	
-	//son todas las noticias filtradas por el tipo de periodico o secci�n y el n�mero
-	// de bloque para la p�gina
-	function action_findByNewsPaper(){
-		
-	}
-	
-	// todas las noticias filtradas unicamente por bloques de 5 noticias
+	// todas las noticias filtradas unicamente por bloques de 10 noticias
 	function action_findNextPage(){
 		$feedService = new FeedService();
 		$page = $_REQUEST['page'];
@@ -70,13 +63,6 @@ class FeedController{
         $value = floor($total/10);
         echo json_encode($value);
     }
-	
-	//son todas las noticias de la base de datos
-	function action_refresh(){
-		$feedService = new FeedService();
-		$feeds = $feedService->getAllFeedFromDB();
-		echo json_encode($feeds);
-	}
 	
 	function action_updateLikes(){
 		$feedId = $_REQUEST['feedId'];
